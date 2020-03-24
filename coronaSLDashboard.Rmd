@@ -158,7 +158,7 @@ plotly::plot_ly(data = df_daily) %>%
   plotly::add_annotations(
     x = as.Date("2020-03-11"),
     y = 3,
-    text = paste("First Sri Lankan (Origin: Italy)"),
+    text = paste("First Sri Lankan (Tour guide, Origin: Italy)"),
     xref = "x",
     yref = "y",
     arrowhead = 5,
@@ -166,23 +166,6 @@ plotly::plot_ly(data = df_daily) %>%
     arrowsize = 1,
     showarrow = TRUE,
     ax = -90,
-    ay = -90
-  ) %>%
-  plotly::add_annotations(
-    x = as.Date("2020-03-18"),
-    y = 14,
-    text = paste(
-      "New containment",
-      "",
-      "measures"
-    ),
-    xref = "x",
-    yref = "y",
-    arrowhead = 5,
-    arrowhead = 3,
-    arrowsize = 1,
-    showarrow = TRUE,
-    ax = -10,
     ay = -90
   ) %>%
   plotly::layout(
@@ -207,7 +190,7 @@ Column {data-width=400}
 ```{r}
 daily_confirmed <- coronavirus %>%
   dplyr::filter(type == "confirmed") %>%
-  dplyr::filter(date >= "2020-03-11") %>%
+  dplyr::filter(cases >= 2) %>%
   dplyr::mutate(country = Country.Region) %>%
   dplyr::group_by(date, country) %>%
   dplyr::summarise(total = sum(cases)) %>%
