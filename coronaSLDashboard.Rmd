@@ -47,7 +47,7 @@ df <- coronavirus %>%
   dplyr::mutate(country = factor(country, levels = country))
 
 df_daily <- coronavirus %>%
-  dplyr::filter(Country.Region == "Belgium") %>%
+  dplyr::filter(Country.Region == "Sri Lanka") %>%
   dplyr::group_by(date, type) %>%
   dplyr::summarise(total = sum(cases, na.rm = TRUE)) %>%
   tidyr::pivot_wider(
@@ -208,7 +208,7 @@ Column {data-width=400}
 ```{r}
 daily_confirmed <- coronavirus %>%
   dplyr::filter(type == "confirmed") %>%
-  dplyr::filter(date >= "2020-02-29") %>%
+  dplyr::filter(date >= "2020-03-11") %>%
   dplyr::mutate(country = Country.Region) %>%
   dplyr::group_by(date, country) %>%
   dplyr::summarise(total = sum(cases)) %>%
@@ -222,10 +222,10 @@ daily_confirmed %>%
   plotly::plot_ly() %>%
   plotly::add_trace(
     x = ~date,
-    y = ~Belgium,
+    y = ~ "Sri Lanka",
     type = "scatter",
     mode = "lines+markers",
-    name = "Belgium"
+    name = "Sri Lanka"
   ) %>%
   plotly::add_trace(
     x = ~date,
@@ -272,7 +272,7 @@ daily_confirmed %>%
 ```{r daily_summary}
 df_EU <- coronavirus %>%
   # dplyr::filter(date == max(date)) %>%
-  dplyr::filter(Country.Region == "Belgium" |
+  dplyr::filter(Country.Region == "Sri Lanka" |
     Country.Region == "France" |
     Country.Region == "Italy" |
     Country.Region == "Spain") %>%
@@ -389,29 +389,16 @@ This Coronavirus dashboard: the case of Belgium provides an overview of the 2019
 
 **Code**
 
-The code behind this dashboard is available on [GitHub](https://github.com/AntoineSoetewey/coronavirus_dashboard){target="_blank"}.
+The code behind this dashboard is available on [GitHub](https://github.com/thiyangt/CoronaSriLanka){target="_blank"}.
 
-**Data**
 
-The input data for this dashboard is the dataset available from the [`{coronavirus}`](https://github.com/RamiKrispin/coronavirus){target="_blank"} R package. Make sure to download the development version of the package to have the latest data:
-
-```
-install.packages("devtools")
-devtools::install_github("RamiKrispin/coronavirus")
-```
-
-The data and dashboard are refreshed on a daily basis.
-
-The raw data is pulled from the Johns Hopkins University Center for Systems Science and Engineering (JHU CCSE) Coronavirus [repository](https://github.com/RamiKrispin/coronavirus-csv){target="_blank"}.
 
 **Contact**
 
-For any question or feedback, you can [contact me](https://www.statsandr.com/contact/). More information about this dashboard can be found in this [article](https://www.statsandr.com/blog/how-to-create-a-simple-coronavirus-dashboard-specific-to-your-country-in-r/).
+For any question or feedback, you can [contact me](https://thiyanga.netlify.com/). More information about this dashboard can be found in this [article](https://www.statsandr.com/blog/how-to-create-a-simple-coronavirus-dashboard-specific-to-your-country-in-r/).
 
 **Update**
 
 The data is as of `r format(max(coronavirus$date), "%A %B %d, %Y")` and the dashboard has been updated on `r format(Sys.time(), "%A %B %d, %Y")`.
 
 
-
-*Go back to [www.statsandr.com](https://www.statsandr.com/) (blog) or [www.antoinesoetewey.com](https://www.antoinesoetewey.com/) (personal website)*.
