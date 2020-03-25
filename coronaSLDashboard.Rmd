@@ -166,7 +166,7 @@ plotly::plot_ly(data = dfSL) %>%
     hovermode = "compare"
   )
 
-dflocation <- data.frame(location=c("Colombo", "Kalutara", "Gampaha", "Puttalam", "Ratnapura", "Kurunegala", "Galle", "Kegalle", "Batticoloa", "Badulla", "Jaffna", "Matara", "Kandy", "Matale", "Nuwara Eliya", Hambantota, Kilinochchi, Mannar, Vavunia, Mullativu, Ampara, Trincomalee, Anuradhapura, Polonnaruwa, Moneragala, Kalmunai, "Quarantine Centres", Foreigners),
+dflocation <- data.frame(location=c("Colombo", "Kalutara", "Gampaha", "Puttalam", "Ratnapura", "Kurunegala", "Galle", "Kegalle", "Batticoloa", "Badulla", "Jaffna", "Matara", "Kandy", "Matale", "Nuwara Eliya", "Hambantota", "Kilinochchi", "Mannar", "Vavunia", "Mullativu", "Ampara", "Trincomalee", "Anuradhapura", "Polonnaruwa", "Moneragala", "Kalmunai", "Quarantine Centres", "Foreigners"),
 date24march=c(21, 13, 10, 8, 3, 1, 1, 1, 1, 1, 1, 1, rep(0, 14), 32, 3))
 ```
 
