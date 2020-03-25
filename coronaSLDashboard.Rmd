@@ -65,6 +65,14 @@ df_daily <- coronavirus %>%
 
 
 df1 <- coronavirus %>% dplyr::filter(date == max(date))
+
+dfSL <- data.frame(corona_SL <- data.frame(date = seq(as.Date("2020-1-27"), as.Date("2020-3-24"), by="days"),
+  "confirmed" = c(1, rep(0, 43), 1L, 2L,2L, 5L, 8L, 10L, 13L, 11L, 13L, 6L,                                     6L, 9L, 10L, 3L),
+  death = rep(0, 58),
+  cumsum = c(rep(1, 44), 2, 4, 6, 11, 19, 29, 42, 53, 66, 72, 78, 87, 97, 100)
+  
+  
+))
 ```
 
 Summary
@@ -78,7 +86,7 @@ Row {data-width=400}
 ```{r}
 
 valueBox(
-  value = paste(format(sum(df$confirmed), big.mark = ","), "", sep = " "),
+  value = paste(format(100, big.mark = ","), "", sep = " "),
   caption = "Total confirmed cases",
   icon = "fas fa-user-md",
   color = confirmed_color
@@ -90,62 +98,111 @@ valueBox(
 
 ```{r}
 valueBox(
-  value = paste(format(sum(df$unrecovered, na.rm = TRUE), big.mark = ","), " (",
-    round(100 * sum(df$unrecovered, na.rm = TRUE) / sum(df$confirmed), 1),
-    "%)",
+  value = paste(format(229, big.mark = ","), 
+    
     sep = ""
   ),
-  caption = "Active cases (% of total cases)", icon = "fas fa-ambulance",
+  caption = "Total number of individuals in hospitals", icon = "fas fa-ambulance",
   color = active_color
 )
 ```
 
-### death {.value-box}
+### Recoverd {.value-box}
 
 ```{r}
 
 valueBox(
-  value = paste(format(sum(df$death, na.rm = TRUE), big.mark = ","), " (",
-    round(100 * sum(df$death, na.rm = TRUE) / sum(df$confirmed), 1),
-    "%)",
+  value = paste(format(2, big.mark = ","), 
+
     sep = ""
   ),
-  caption = "Death cases (death rate)",
+  caption = "Recovered",
+  icon = "fas fa-home",
+  color = recovered_color
+)
+```
+
+### Deaths {.value-box}
+
+```{r}
+
+valueBox(
+  value = paste(format(0, big.mark = ","), 
+
+    sep = ""
+  ),
+  caption = "Deaths",
   icon = "fas fa-heart-broken",
   color = death_color
 )
 ```
 
+Column {data-width=400}
+-------------------------------------
 
-Row
------------------------------------------------------------------------
 
-### **Daily cumulative cases by type** (Sri Lanka only)
+
+
+### **Cummulative count** (Sri Lanka only)
+
+
     
 ```{r}
-plotly::plot_ly(data = df_daily) %>%
+plotly::plot_ly(data = dfSL) %>%
   plotly::add_trace(
     x = ~date,
-    y = ~active_cum,
+    y = ~cumsum,
     type = "scatter",
     mode = "lines+markers",
-    name = "Active",
+    name = "New cases",
     line = list(color = active_color),
     marker = list(color = active_color)
   ) %>%
-  plotly::add_trace(
+  plotly::layout(
+    title = "",
+    yaxis = list(title = "Cumulative count"),
+    xaxis = list(title = "Date"),
+    legend = list(x = 0.1, y = 0.9),
+    hovermode = "compare"
+  )
+
+dflocation <- data.frame(location=c("Colombo", "Kalutara", "Gampaha", "Puttalam", "Ratnapura", "Kurunegala", "Galle", "Kegalle", "Batticoloa", "Badulla", "Jaffna", "Matara", "Kandy", "Matale", "Nuwara Eliya", Hambantota, Kilinochchi, Mannar, Vavunia, Mullativu, Ampara, Trincomalee, Anuradhapura, Polonnaruwa, Moneragala, Kalmunai, "Quarantine Centres", Foreigners),
+date24march=c(21, 13, 10, 8, 3, 1, 1, 1, 1, 1, 1, 1, rep(0, 14), 32, 3))
+```
+
+
+### **Daily new cases** (Sri Lanka only)
+
+
+    
+```{r}
+plotly::plot_ly(data = dfSL) %>%
+  plotly::add_bars(
     x = ~date,
-    y = ~death_cum,
+    y = ~confirmed,
     type = "scatter",
     mode = "lines+markers",
-    name = "Death",
-    line = list(color = death_color),
-    marker = list(color = death_color)
+    name = "New cases",
+    line = list(color = active_color),
+    marker = list(color = active_color)
   ) %>%
   plotly::add_annotations(
     x = as.Date("2020-01-27"),
+    y = 0.5,
+    text = paste("Foreign: Wuhan, China"),
+    xref = "x",
+    yref = "y",
+    arrowhead = 5,
+    arrowhead = 3,
+    arrowsize = 1,
+    showarrow = TRUE,
+    ax = 100,
+    ay = -70
+  ) %>%
+  plotly::add_annotations(
+    x = as.Date("2020-03-11"),
     y = 1,
-    text = paste("First case (Nationality: China, Orign: Wuhan, China)"),
+    text = paste("First Sri Lankan (Origin: Italy)"),
     xref = "x",
     yref = "y",
     arrowhead = 5,
@@ -155,27 +212,16 @@ plotly::plot_ly(data = df_daily) %>%
     ax = -10,
     ay = -90
   ) %>%
-  plotly::add_annotations(
-    x = as.Date("2020-03-11"),
-    y = 3,
-    text = paste("First Sri Lankan (Tour guide, Origin: Italy)"),
-    xref = "x",
-    yref = "y",
-    arrowhead = 5,
-    arrowhead = 3,
-    arrowsize = 1,
-    showarrow = TRUE,
-    ax = -90,
-    ay = -90
-  ) %>%
   plotly::layout(
     title = "",
-    yaxis = list(title = "Cumulative number of cases"),
+    yaxis = list(title = "New patients"),
     xaxis = list(title = "Date"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare"
   )
 ```
+
+### **Distribution of Confirmed Patients**
 
 Comparison
 =======================================================================
@@ -367,7 +413,7 @@ About
 
 **Created by**
 
-[Dr Thiyanga Talagala](https://thiyanga.netlify.com/)
+[Thiyanga Talagala](https://thiyanga.netlify.com/)
 
 
 This Coronavirus dashboard: the case of Sri Lanka provides an overview of the Novel Coronavirus COVID-19 (2019-nCoV) epidemic for Sri Lanka. This dashboard is built with R using the R Makrdown framework and was adapted from this [dashboard](https://ramikrispin.github.io/coronavirus_dashboard/){target="_blank"} by Rami Krispin.
