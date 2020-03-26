@@ -1,10 +1,11 @@
 ---
 title: "Coronavirus in Sri Lanka"
-output: 
+resource_files:
+- coronaSLDashboard.html
+runtime: shiny
+output:
   flexdashboard::flex_dashboard:
     orientation: rows
-    social: ["", "thiyangt", ""]
-    # source_code: embed
     vertical_layout: fill
 ---
 
@@ -86,9 +87,6 @@ dflocation <- data.frame(location=c("Colombo", "Kalutara", "Gampaha", "Puttalam"
 date=districtlatest)
 dflocation$location <- factor(dflocation$location, levels = unique(dflocation$location)[order(dflocation$date, decreasing = FALSE)])
 
-## Exposure
-m <- read.csv("patientcsv.csv")
-exposure <- m %>% gather("patient", "value", "patient.1":"patient.76")
 ```
 
 Summary
@@ -390,11 +388,6 @@ This Coronavirus dashboard: the case of Sri Lanka provides an overview of the No
 **Code**
 
 The code behind this dashboard is available on [GitHub](https://github.com/thiyangt/CoronaSriLanka){target="_blank"}.
-
-
-**Update**
-
-The data is as of `r format(max(coronavirus$date), "%A %B %d, %Y")` and the dashboard has been updated on `r format(Sys.time(), "%A %B %d, %Y")`.
 
 
 **Data**

@@ -1,0 +1,13 @@
+name: coronaSLDashboard
+title:
+username:
+account: statisticsmart
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1999424
+bundleId: 2927402
+url: https://statisticsmart.shinyapps.io/coronaSLDashboard/
+when: 1585230189.04269
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: coronaSLDashboard.html
