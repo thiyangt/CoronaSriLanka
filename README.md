@@ -1,6 +1,8 @@
 # CoronaSriLanka
 Coronaviris in Sri Lanka
 
+Visit https://statisticsmart.shinyapps.io/coronaSLDashboard/
+
 
 **Created by**
 
