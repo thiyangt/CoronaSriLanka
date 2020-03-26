@@ -67,22 +67,23 @@ df_daily <- coronavirus %>%
 
 
 df1 <- coronavirus %>% dplyr::filter(date == max(date))
-date24March <- c(1, rep(0, 43), 1L, 2L,2L, 5L, 8L, 10L, 13L, 11L, 13L, 6L,                                     6L, 9L, 10L, 5L)
+date24March <- c(1, rep(0, 43), 1L, 2L,2L, 5L, 8L, 10L, 13L, 11L, 13L, 6L,                                     6L, 9L, 10L, 5L, 0L)
 datalatest <- date24March
 cumsum <- cumsum(datalatest)
 
 
 
-dfSL <- data.frame(corona_SL <- data.frame(date = seq(as.Date("2020-1-27"), as.Date("2020-3-24"), by="days"),
+dfSL <- data.frame(corona_SL <- data.frame(date = seq(as.Date("2020-1-27"), as.Date("2020-3-25"), by="days"),
   "confirmed" = datalatest,
-  death = rep(0, 58),
+  death = rep(0, 59),
   cumsum = cumsum))
 
 
 #---
 
 data24march <- c(22, 14, 10, 9, 3, 1, 1, 1, 1, 1, 1, 1, rep(0, 14), 34, 3)
-districtlatest <- data24march
+data25march <- c(22, 14, 10, 9, 3, 1, 1, 1, 1, 1, 1, 1, rep(0, 14), 34, 3)
+districtlatest <- data25march
 dflocation <- data.frame(location=c("Colombo", "Kalutara", "Gampaha", "Puttalam", "Ratnapura", "Kurunegala", "Galle", "Kegalle", "Batticoloa", "Badulla", "Jaffna", "Matara", "Kandy", "Matale", "Nuwara Eliya", "Hambantota", "Kilinochchi", "Mannar", "Vavunia", "Mullativu", "Ampara", "Trincomalee", "Anuradhapura", "Polonnaruwa", "Moneragala", "Kalmunai", "Quarantine Centres", "Foreigners"),
 date=districtlatest)
 dflocation$location <- factor(dflocation$location, levels = unique(dflocation$location)[order(dflocation$date, decreasing = FALSE)])
