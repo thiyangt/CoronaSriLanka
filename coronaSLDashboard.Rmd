@@ -29,58 +29,18 @@ active_color <- "#1f77b4"
 recovered_color <- "forestgreen"
 death_color <- "red"
 #------------------ Data ------------------
-df <- coronavirus %>%
-  # dplyr::filter(date == max(date)) %>%
-  dplyr::filter(Country.Region == "Sri Lanka") %>%
-  dplyr::group_by(Country.Region, type) %>%
-  dplyr::summarise(total = sum(cases)) %>%
-  tidyr::pivot_wider(
-    names_from = type,
-    values_from = total
-  ) %>%
-  dplyr::mutate(unrecovered = confirmed - ifelse(is.na(recovered), 0, recovered) - ifelse(is.na(death), 0, death)) %>%
-  dplyr::arrange(-confirmed) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(country = dplyr::if_else(Country.Region == "United Arab Emirates", "UAE", Country.Region)) %>%
-  dplyr::mutate(country = dplyr::if_else(country == "Mainland China", "China", country)) %>%
-  dplyr::mutate(country = dplyr::if_else(country == "North Macedonia", "N.Macedonia", country)) %>%
-  dplyr::mutate(country = trimws(country)) %>%
-  dplyr::mutate(country = factor(country, levels = country))
-
-df_daily <- coronavirus %>%
-  dplyr::filter(Country.Region == "Sri Lanka") %>%
-  dplyr::group_by(date, type) %>%
-  dplyr::summarise(total = sum(cases, na.rm = TRUE)) %>%
-  tidyr::pivot_wider(
-    names_from = type,
-    values_from = total
-  ) %>%
-  dplyr::arrange(date) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(active = confirmed - death - recovered) %>%
-  dplyr::mutate(
-    confirmed_cum = cumsum(confirmed),
-    death_cum = cumsum(death),
-    recovered_cum = cumsum(recovered),
-    active_cum = cumsum(active)
-  )
-
-
+# New patients
 df1 <- coronavirus %>% dplyr::filter(date == max(date))
-date24March <- c(1, rep(0, 43), 1L, 2L,2L, 5L, 8L, 10L, 13L, 11L, 13L, 6L,                                     6L, 9L, 10L, 5L, 0L)
-datalatest <- date24March
+datalatest  <- c(1, rep(0, 43), 1L, 2L,2L, 5L, 8L, 10L, 13L, 11L, 13L, 6L,                                     6L, 9L, 10L, 5L, 0L, 4L)
 cumsum <- cumsum(datalatest)
 
-
-
-dfSL <- data.frame(corona_SL <- data.frame(date = seq(as.Date("2020-1-27"), as.Date("2020-3-25"), by="days"),
+dfSL <- data.frame(corona_SL <- data.frame(date = seq(as.Date("2020-1-27"), as.Date("2020-3-26"), by="days"),
   "confirmed" = datalatest,
-  death = rep(0, 59),
+  death = rep(0, length(datalatest)),
   cumsum = cumsum))
 
 
-#---
-
+#--- District-wise distribution
 data24march <- c(22, 14, 10, 9, 3, 1, 1, 1, 1, 1, 1, 1, rep(0, 14), 34, 3)
 data25march <- c(22, 14, 10, 9, 3, 1, 1, 1, 1, 1, 1, 1, rep(0, 14), 34, 3)
 districtlatest <- data25march
@@ -88,6 +48,12 @@ dflocation <- data.frame(location=c("Colombo", "Kalutara", "Gampaha", "Puttalam"
 date=districtlatest)
 dflocation$location <- factor(dflocation$location, levels = unique(dflocation$location)[order(dflocation$date, decreasing = FALSE)])
 
+#--- Summary Numbers
+Date <- c("2020-3-24", "2020-3-25", "2020-3-26")
+confirmedValue <- c(102, 102, 106)
+hospitalValue <- c(255, 237, 237)
+recoveredValue <- c(3, 3, 6)
+deathValue <- c(0, 0, 0)
 ```
 
 Summary
@@ -96,12 +62,12 @@ Summary
 Row {data-width=400}
 -----------------------------------------------------------------------
 
-### confirmed {.value-box}
+### confirmed  {.value-box}
 
 ```{r}
-
+confirmed <- confirmedValue[length(confirmedValue)]
 valueBox(
-  value = paste(format(102, big.mark = ","), "", sep = " "),
+  value = paste(format(confirmed, big.mark = ","), "", sep = " "),
   caption = "Total confirmed cases",
   icon = "fas fa-user-md",
   color = confirmed_color
@@ -112,8 +78,9 @@ valueBox(
 ### active {.value-box}
 
 ```{r}
+active <- hospitalValue[length(hospitalValue)]
 valueBox(
-  value = paste(format(255, big.mark = ","), 
+  value = paste(format(active, big.mark = ","), 
     
     sep = ""
   ),
@@ -125,9 +92,9 @@ valueBox(
 ### Recoverd {.value-box}
 
 ```{r}
-
+recoverd <- recoveredValue[length(recoveredValue)]
 valueBox(
-  value = paste(format(3, big.mark = ","), 
+  value = paste(format(recoverd, big.mark = ","), 
 
     sep = ""
   ),
@@ -140,9 +107,9 @@ valueBox(
 ### Deaths {.value-box}
 
 ```{r}
-
+death <- deathValue[length(deathValue)]
 valueBox(
-  value = paste(format(0, big.mark = ","), 
+  value = paste(format(death, big.mark = ","), 
 
     sep = ""
   ),
@@ -295,7 +262,7 @@ plotly::plot_ly(data = dfSL) %>%
 
 ```
 
-### **Location-wise distribution** (by 24 March 2020)
+### **Location-wise distribution** (by `r format(Sys.time()-86400, "%A %B %d, %Y")`)
 
 
 ```{r}
