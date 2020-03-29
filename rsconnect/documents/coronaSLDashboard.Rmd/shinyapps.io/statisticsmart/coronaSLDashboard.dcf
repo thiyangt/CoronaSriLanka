@@ -5,9 +5,9 @@ account: statisticsmart
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1999424
-bundleId: 2930048
+bundleId: 2939935
 url: https://statisticsmart.shinyapps.io/coronaSLDashboard/
-when: 1585268210.15875
+when: 1585498960.95015
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: coronaSLDashboard.html
