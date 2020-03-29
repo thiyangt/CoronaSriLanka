@@ -31,10 +31,10 @@ death_color <- "red"
 #------------------ Data ------------------
 # New patients
 df1 <- coronavirus %>% dplyr::filter(date == max(date))
-datalatest  <- c(1, rep(0, 43), 1L, 2L,2L, 5L, 8L, 10L, 13L, 11L, 13L, 6L,                                     6L, 9L, 10L, 5L, 0L, 4L)
+datalatest  <- c(1, rep(0, 43), 1L, 2L,2L, 5L, 8L, 10L, 13L, 11L, 13L, 6L, 6L, 9L, 10L, 5L, 0L, 4L, 0L, 9L)
 cumsum <- cumsum(datalatest)
 
-dfSL <- data.frame(corona_SL <- data.frame(date = seq(as.Date("2020-1-27"), as.Date("2020-3-26"), by="days"),
+dfSL <- data.frame(corona_SL <- data.frame(date = seq(as.Date("2020-1-27"), as.Date("2020-3-28"), by="days"),
   "confirmed" = datalatest,
   death = rep(0, length(datalatest)),
   cumsum = cumsum))
@@ -43,17 +43,18 @@ dfSL <- data.frame(corona_SL <- data.frame(date = seq(as.Date("2020-1-27"), as.D
 #--- District-wise distribution
 data24march <- c(22, 14, 10, 9, 3, 1, 1, 1, 1, 1, 1, 1, rep(0, 14), 34, 3)
 data25march <- c(22, 14, 10, 9, 3, 1, 1, 1, 1, 1, 1, 1, rep(0, 14), 34, 3)
-districtlatest <- data25march
-dflocation <- data.frame(location=c("Colombo", "Kalutara", "Gampaha", "Puttalam", "Ratnapura", "Kurunegala", "Galle", "Kegalle", "Batticoloa", "Badulla", "Jaffna", "Matara", "Kandy", "Matale", "Nuwara Eliya", "Hambantota", "Kilinochchi", "Mannar", "Vavunia", "Mullativu", "Ampara", "Trincomalee", "Anuradhapura", "Polonnaruwa", "Moneragala", "Kalmunai", "Quarantine Centres", "Foreigners"),
+data29march <- c(29, 17, 11, 10, 3, 1, 1, 1, 1, 1, 1, 1, 1, rep(0, 13), 34, 3)
+districtlatest <- data29march
+dflocation <- data.frame(location=c("Colombo", "Kalutara",  "Puttalam", "Gampaha","Ratnapura", "Kurunegala", "Galle", "Kegalle", "Batticoloa", "Badulla", "Jaffna", "Matara", "Kandy", "Matale", "Nuwara Eliya", "Hambantota", "Kilinochchi", "Mannar", "Vavunia", "Mullativu", "Ampara", "Trincomalee", "Anuradhapura", "Polonnaruwa", "Moneragala", "Kalmunai", "Quarantine Centres", "Foreigners"),
 date=districtlatest)
 dflocation$location <- factor(dflocation$location, levels = unique(dflocation$location)[order(dflocation$date, decreasing = FALSE)])
 
 #--- Summary Numbers
-Date <- c("2020-3-24", "2020-3-25", "2020-3-26")
-confirmedValue <- c(102, 102, 106)
-hospitalValue <- c(255, 237, 237)
-recoveredValue <- c(3, 3, 6)
-deathValue <- c(0, 0, 0)
+Date <- c("2020-3-24", "2020-3-25", "2020-3-26", "2020-3-28")
+confirmedValue <- c(102, 102, 106, 115)
+hospitalValue <- c(255, 237, 237, 117)
+recoveredValue <- c(3, 3, 6, 10)
+deathValue <- c(0, 0, 0, 1)
 ```
 
 Summary
@@ -242,6 +243,19 @@ plotly::plot_ly(data = dfSL) %>%
     x = as.Date("2020-03-23"),
     y = 97,
     text = paste("Lifted curfew: Kalutara"),
+    xref = "x",
+    yref = "y",
+    arrowhead = 5,
+    arrowhead = 3,
+    arrowsize = 0.5,
+    showarrow = TRUE,
+    ax = -150,
+    ay = 0
+  ) %>%
+   plotly::add_annotations(
+    x = as.Date("2020-03-28"),
+    y = 115,
+    text = paste("Locked down Bandaragama-Kalutara"),
     xref = "x",
     yref = "y",
     arrowhead = 5,
